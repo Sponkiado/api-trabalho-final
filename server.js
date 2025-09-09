@@ -2,6 +2,11 @@ const express = require("express");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
 const { ApolloServer } = require("apollo-server-express");
+const jwt = require("jsonwebtoken");
+
+// Importar GraphQL schema/resolvers
+const typeDefs = require("./api/graphql/typeDefs");
+const resolvers = require("./api/graphql/resolvers");
 
 const app = express();
 app.use(express.json());
@@ -35,27 +40,34 @@ const swaggerOptions = {
   apis: ["./api/rest/routes/*.js"],
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
-
-// Serve Swagger na rota /api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// ApolloServer (GraphQL) – exemplo básico
+// ApolloServer (GraphQL)
 async function startApollo() {
   const server = new ApolloServer({
-    typeDefs: `
-      type Query {
-        hello: String
+    typeDefs,
+    resolvers,
+    context: ({ req }) => {
+      const authHeader = req.headers.authorization || "";
+      let user = null;
+
+      if (authHeader.startsWith("Bearer ")) {
+        const token = authHeader.replace("Bearer ", "");
+        try {
+          user = jwt.verify(token, "segredo123"); // segredo padronizado
+        } catch (err) {
+          console.error("JWT inválido:", err.message);
+        }
       }
-    `,
-    resolvers: {
-      Query: {
-        hello: () => "Hello GraphQL",
-      },
+
+      return { user }; // user será null se não houver token válido
     },
   });
+
   await server.start();
   server.applyMiddleware({ app, path: "/graphql" });
 }
+
 startApollo();
 
 // Porta
