@@ -27,7 +27,12 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Rodar todos os testes (External + Controller + GraphQL)
+      - name: Iniciar servidor
+        run: |
+          nohup npm start &
+          sleep 10
+
+      - name: Rodar testes External, Controller e GraphQL
         run: |
           npm run test.external
           npm run test.controller
