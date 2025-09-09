@@ -27,20 +27,19 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Rodar testes External (GraphQL)
-        run: npm run test.external
-
-      - name: Rodar testes Controller (REST)
-        run: npm run test.controller
-
-      - name: Gerar relatório de teste (mochawesome)
+      - name: Rodar todos os testes (External + Controller + GraphQL)
         run: |
-          npm install mochawesome mochawesome-merge mochawesome-report-generator --save-dev
+          npm run test.external
+          npm run test.controller
+          npm run test.graphql
+
+      - name: Gerar relatório unificado (mochawesome)
+        run: |
           npx mochawesome-merge ./mochawesome-report/*.json > mochawesome.json
           npx marge mochawesome.json --reportDir ./mochawesome-report --reportTitle "Relatório de Testes"
 
       - name: Publicar relatório como artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Relatório-de-Testes
+          name: Relatorio-de-Testes
           path: ./mochawesome-report
