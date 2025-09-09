@@ -5,7 +5,8 @@
 "scripts": {
   "test": "mocha \"api/tests/**/*.test.js\"",
   "test.external": "mocha \"api/tests/external/**/*.test.js\"",
-  "test.controller": "mocha \"api/tests/controllers/**/*.test.js\""
+  "test.controller": "mocha \"api/tests/controllers/**/*.test.js\"",
+  "test.graphql": "mocha \"api/tests/external/graphql.test.js\""
 },
   "keywords": [],
   "author": "",
