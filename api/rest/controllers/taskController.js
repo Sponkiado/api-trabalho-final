@@ -26,7 +26,7 @@ function createTask(req, res) {
 function listTasks(req, res) {
   const userId = req.user.id;
   const userTasks = tasks.filter(t => t.userId === userId);
-  return res.json(userTasks);
+  return res.status(200).json(userTasks);
 }
 
 function completeTask(req, res) {
@@ -37,7 +37,7 @@ function completeTask(req, res) {
   if (!task) return res.status(404).json({ message: "Tarefa não encontrada" });
 
   task.completed = true;
-  return res.json(task);
+  return res.status(200).json(task);
 }
 
 function deleteTask(req, res) {
@@ -48,7 +48,7 @@ function deleteTask(req, res) {
   if (taskIndex === -1) return res.status(404).json({ message: "Tarefa não encontrada" });
 
   tasks.splice(taskIndex, 1);
-  return res.json({ message: "Tarefa deletada com sucesso" });
+  return res.status(200).json({ message: "Tarefa deletada com sucesso" });
 }
 
 module.exports = {
