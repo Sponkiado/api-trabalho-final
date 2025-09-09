@@ -1,0 +1,28 @@
+{
+  "name": "api-trabalho-final",
+  "version": "1.0.0",
+  "main": "index.js",
+"scripts": {
+  "test": "mocha \"api/tests/**/*.test.js\"",
+  "test.external": "mocha \"api/tests/external/**/*.test.js\"",
+  "test.controller": "mocha \"api/tests/controllers/**/*.test.js\""
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "apollo-server-express": "^3.13.0",
+    "express": "^4.21.2",
+    "graphql": "^16.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "chai": "^6.0.1",
+    "mocha": "^11.7.2",
+    "sinon": "^21.0.0",
+    "supertest": "^7.1.4"
+  }
+}
